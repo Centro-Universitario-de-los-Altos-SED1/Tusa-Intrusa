@@ -5,6 +5,7 @@
  */
 package Tombola;
 
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,12 +15,12 @@ import javax.swing.table.DefaultTableModel;
  * @author artur
  */
 public class Interfaz extends javax.swing.JFrame {
-    
+
     Alumno alumnos[] = new Alumno[42];
     int tope = 1;
     DefaultTableModel modelo;
-    String arregloTabla[] = new String[2];
-    
+    String arregloTabla[] = new String[3];
+
     /**
      * Creates new form Interfaz
      */
@@ -27,25 +28,34 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         modelo = new DefaultTableModel();
+        modelo.addColumn("Número de lista");
         modelo.addColumn("Nombre/s");
-        modelo.addColumn("Numero de lista");
+        modelo.addColumn("Participación");
         this.Tabla.setModel(modelo);
     }
-    
-    public void CapturarDatos(){
-        
-        if(tope >= 41){
-            JOptionPane.showMessageDialog(null,"Error. Se ha completado la lista");
+
+    /**
+     * Para guardar los datos en los campos de texto
+     */
+    public void CapturarDatos() {
+        //if para verificar si los campos de texto están vacíos
+        if (PantallaNombre.getText().equals("") || PantallaNumero.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Favor de llenar los datos.");
+        } else if (tope >= 50) {
+            JOptionPane.showMessageDialog(null, "Error. Se ha completado la lista");
         } else {
-            alumnos[tope] = new Alumno(PantallaNombre.getText(), Integer.parseInt(PantallaNumero.getText()), false);
-            arregloTabla[0] = alumnos[tope].nombre;
-            arregloTabla[1] = String.valueOf(alumnos[tope].listNum);
+            //Instanciamos el objeto con los datos
+            Alumno alumno = new Alumno(PantallaNombre.getText(), Integer.parseInt(PantallaNumero.getText()), false);
+            //Guardamos el objeto en  el arreglo
+            arregloTabla[0] = String.valueOf(alumno.listNum);
+            arregloTabla[1] = String.valueOf(alumno.nombre);
+            arregloTabla[2] = String.valueOf(alumno.control);
             modelo.addRow(arregloTabla);
             tope++;
         }
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,41 +65,65 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Popup = new javax.swing.JPopupMenu();
+        Eliminar = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         PantallaNombre = new javax.swing.JTextField();
-        PantallaNumero = new javax.swing.JTextField();
+        PantallaNumero = new javax.swing.JFormattedTextField();
         BotonAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         BotonCargar = new javax.swing.JButton();
 
+        Eliminar.setMnemonic('e');
+        Eliminar.setText("Eliminar fila.");
+        Eliminar.setToolTipText("Eliminar toda la fila.");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+        Popup.add(Eliminar);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 575));
+        setTitle("RULETA DE LA SUERTE");
+        setBackground(new java.awt.Color(34, 40, 49));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(238, 238, 238));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LA RULETA DE LA SUERTE");
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(238, 238, 238));
         jLabel2.setText("NOMBRE:");
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        jLabel3.setText("NUMERO DE LISTA:");
+        jLabel3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel3.setText("NÚMERO DE LISTA:");
 
         PantallaNombre.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        PantallaNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PantallaNombreActionPerformed(evt);
-            }
-        });
+        PantallaNombre.setForeground(new java.awt.Color(34, 40, 49));
+        PantallaNombre.setToolTipText("Espacio para escribir el nombre completo (se recomienda empezar por los apellidos).");
+        PantallaNombre.setNextFocusableComponent(PantallaNumero);
 
+        PantallaNumero.setForeground(new java.awt.Color(34, 40, 49));
+        PantallaNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        PantallaNumero.setToolTipText("Espacio para escribir el número de lista.");
         PantallaNumero.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        PantallaNumero.setNextFocusableComponent(BotonAgregar);
 
+        BotonAgregar.setBackground(new java.awt.Color(0, 173, 181));
         BotonAgregar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        BotonAgregar.setForeground(new java.awt.Color(34, 40, 49));
+        BotonAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agregar-usuario.png"))); // NOI18N
+        BotonAgregar.setMnemonic('a');
         BotonAgregar.setText("AGREGAR");
+        BotonAgregar.setToolTipText("Agregar los datos a la lista.");
+        BotonAgregar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agregar-usuario (1).png"))); // NOI18N
         BotonAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonAgregarActionPerformed(evt);
@@ -97,6 +131,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         Tabla.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        Tabla.setForeground(new java.awt.Color(34, 40, 49));
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -108,9 +143,12 @@ public class Interfaz extends javax.swing.JFrame {
 
             }
         ));
+        Tabla.setToolTipText("Lista de participantes.");
+        Tabla.setComponentPopupMenu(Popup);
         jScrollPane1.setViewportView(Tabla);
 
         BotonCargar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        BotonCargar.setMnemonic('c');
         BotonCargar.setText("Cargar Lista");
         BotonCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,66 +160,88 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(PantallaNombre))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BotonAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(BotonCargar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(324, 324, 324)
+                .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(BotonAgregar))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(324, 324, 324)
+                .addComponent(jLabel3))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(BotonCargar))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BotonCargar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel1)
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(494, 494, 494)
+                        .addComponent(BotonCargar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel2)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void PantallaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PantallaNombreActionPerformed
-        
-        
-        
-    }//GEN-LAST:event_PantallaNombreActionPerformed
-
+    /**
+     * Guardar datos al hacer click en el botón Agregar
+     */
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
         CapturarDatos();
+        //Borramos los campos de texto
+        PantallaNombre.setText("");
+        PantallaNumero.setText("");
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
     private void BotonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCargarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonCargarActionPerformed
+
+    /**
+     * Menu PopUp
+     * Eliminar fila
+     */
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+       int filas = Tabla.getSelectedRow();
+        if(filas>=0){
+            if (JOptionPane.showConfirmDialog(null, "Realmente deseas eliminar esa fila", "Advertencia", JOptionPane.YES_NO_OPTION) == 0) {//inicio if
+                modelo.removeRow(filas);
+            }//fin if anidado
+        }else{
+            JOptionPane.showMessageDialog(null, "No ha seleccionado una fila", "Advertencia", JOptionPane.ERROR_MESSAGE);
+        }//fin sino
+    }//GEN-LAST:event_EliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,8 +281,10 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAgregar;
     private javax.swing.JButton BotonCargar;
+    private javax.swing.JMenuItem Eliminar;
     private javax.swing.JTextField PantallaNombre;
-    private javax.swing.JTextField PantallaNumero;
+    private javax.swing.JFormattedTextField PantallaNumero;
+    private javax.swing.JPopupMenu Popup;
     private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
