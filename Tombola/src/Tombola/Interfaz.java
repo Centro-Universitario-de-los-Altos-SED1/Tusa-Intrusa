@@ -5,6 +5,17 @@
  */
 package Tombola;
 
+import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,12 +25,12 @@ import javax.swing.table.DefaultTableModel;
  * @author artur
  */
 public class Interfaz extends javax.swing.JFrame {
-    
+
     Alumno alumnos[] = new Alumno[42];
     int tope = 1;
     DefaultTableModel modelo;
     String arregloTabla[] = new String[2];
-    
+
     /**
      * Creates new form Interfaz
      */
@@ -31,11 +42,11 @@ public class Interfaz extends javax.swing.JFrame {
         modelo.addColumn("Numero de lista");
         this.Tabla.setModel(modelo);
     }
-    
-    public void CapturarDatos(){
-        
-        if(tope >= 41){
-            JOptionPane.showMessageDialog(null,"Error. Se ha completado la lista");
+
+    public void CapturarDatos() {
+
+        if (tope >= 41) {
+            JOptionPane.showMessageDialog(null, "Error. Se ha completado la lista");
         } else {
             alumnos[tope] = new Alumno(PantallaNombre.getText(), Integer.parseInt(PantallaNumero.getText()), false);
             arregloTabla[0] = alumnos[tope].nombre;
@@ -43,9 +54,75 @@ public class Interfaz extends javax.swing.JFrame {
             modelo.addRow(arregloTabla);
             tope++;
         }
-        
+
     }
-    
+
+    protected void guardar() throws IOException {  //Método para guardar en un archivo, los datos de la tabla
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int resultado = fc.showSaveDialog(this);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+        File archivo = fc.getSelectedFile();
+        try {
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+
+            for (int i = 0; i < Tabla.getRowCount(); i++) {
+                for (int j = 0; j < Tabla.getColumnCount(); j++) {
+                    pw.print(Tabla.getValueAt(i, j) + ",");
+                }
+                pw.println();
+            }
+            pw.close();
+            JOptionPane.showMessageDialog(null, "Archivo guardado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar el archivo", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    protected void cargar() { //Método para cargar archivos en la tabla
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int resultado = fc.showSaveDialog(this);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+
+        File archivo = fc.getSelectedFile();
+
+        try {
+            FileReader fr = new FileReader(archivo);
+            BufferedReader bf = new BufferedReader(fr);
+            String linea;
+            linea = bf.readLine();
+            String[] lista = new String[modelo.getColumnCount()];
+            while (linea != null) {
+                StringTokenizer st = new StringTokenizer(linea, ",");
+                lista[0] = st.nextToken();
+                lista[1] = st.nextToken();
+
+                modelo.addRow(lista);
+                linea = bf.readLine();
+            }
+            bf.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al encontrar el archivo en carpeta del proyecto", "Advertencia", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void popBorrarActionPerformed(java.awt.event.ActionEvent evt) {
+        int filas = Tabla.getSelectedRow();
+        if (filas >= 0) {
+            modelo.removeRow(filas);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona la fila a eliminar", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +132,8 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        BorrarFila = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -64,6 +143,17 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         BotonCargar = new javax.swing.JButton();
+        BotonGuardar = new javax.swing.JButton();
+        BotonLimpiar = new javax.swing.JButton();
+        BotonBorrar = new javax.swing.JButton();
+
+        BorrarFila.setText("Borrar Fila");
+        BorrarFila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BorrarFilaActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(BorrarFila);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 575));
@@ -85,8 +175,18 @@ public class Interfaz extends javax.swing.JFrame {
                 PantallaNombreActionPerformed(evt);
             }
         });
+        PantallaNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PantallaNombreKeyTyped(evt);
+            }
+        });
 
         PantallaNumero.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        PantallaNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PantallaNumeroKeyTyped(evt);
+            }
+        });
 
         BotonAgregar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         BotonAgregar.setText("AGREGAR");
@@ -107,72 +207,111 @@ public class Interfaz extends javax.swing.JFrame {
             new String [] {
 
             }
-        ));
-        jScrollPane1.setViewportView(Tabla);
+        )
+    );
+    Tabla.setComponentPopupMenu(jPopupMenu2);
+    jScrollPane1.setViewportView(Tabla);
 
-        BotonCargar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        BotonCargar.setText("Cargar Lista");
-        BotonCargar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonCargarActionPerformed(evt);
-            }
-        });
+    BotonCargar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonCargar.setText("Cargar");
+    BotonCargar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            BotonCargarActionPerformed(evt);
+        }
+    });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(PantallaNombre))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BotonAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(BotonCargar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+    BotonGuardar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonGuardar.setText("Guardar");
+    BotonGuardar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            BotonGuardarActionPerformed(evt);
+        }
+    });
+
+    BotonLimpiar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonLimpiar.setText("Limpiar Campos");
+    BotonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            BotonLimpiarActionPerformed(evt);
+        }
+    });
+
+    BotonBorrar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonBorrar.setText("Borrar Tabla");
+    BotonBorrar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            BotonBorrarActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(BotonAgregar)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(PantallaNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(PantallaNumero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(BotonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(BotonBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                            .addComponent(BotonCargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap())
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(BotonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGap(12, 12, 12)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel2)
+            .addGap(1, 1, 1)
+            .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel3)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(BotonAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PantallaNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(BotonCargar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                .addComponent(BotonGuardar))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(BotonLimpiar)
+                .addComponent(BotonBorrar))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void PantallaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PantallaNombreActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_PantallaNombreActionPerformed
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
@@ -180,8 +319,75 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
     private void BotonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCargarActionPerformed
-        // TODO add your handling code here:
+        cargar();
     }//GEN-LAST:event_BotonCargarActionPerformed
+
+    private void BotonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGuardarActionPerformed
+        try {
+            guardar();
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_BotonGuardarActionPerformed
+
+    private void BotonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarActionPerformed
+
+        if (PantallaNombre.getText().equals("") && PantallaNumero.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "No hay nada que limpiar", "Campos Vacios", JOptionPane.WARNING_MESSAGE);
+        } else {
+            PantallaNombre.setText("");
+            PantallaNumero.setText("");
+        }
+    }//GEN-LAST:event_BotonLimpiarActionPerformed
+
+    private void BotonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBorrarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(null, "Desea borrar todos los datos de la tabla?", "Aviso", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+
+            int filas = Tabla.getRowCount();
+            for (int i = 0; i < filas; i++) {
+                modelo.removeRow(0);
+            }
+
+        }
+    }//GEN-LAST:event_BotonBorrarActionPerformed
+
+    private void PantallaNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PantallaNombreKeyTyped
+
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Ingresar solo LETRAS");
+
+        }
+
+    }//GEN-LAST:event_PantallaNombreKeyTyped
+
+    private void PantallaNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PantallaNumeroKeyTyped
+
+        char validar = evt.getKeyChar();
+
+        if (Character.isLetter(validar)) {
+
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Ingresar solo NUMEROS");
+
+        }
+
+    }//GEN-LAST:event_PantallaNumeroKeyTyped
+
+    private void BorrarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarFilaActionPerformed
+        int filas = Tabla.getSelectedRow();
+        if (filas >= 0) {
+            modelo.removeRow(filas);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona la fila a eliminar", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_BorrarFilaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,14 +425,19 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem BorrarFila;
     private javax.swing.JButton BotonAgregar;
+    private javax.swing.JButton BotonBorrar;
     private javax.swing.JButton BotonCargar;
+    private javax.swing.JButton BotonGuardar;
+    private javax.swing.JButton BotonLimpiar;
     private javax.swing.JTextField PantallaNombre;
     private javax.swing.JTextField PantallaNumero;
     private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
