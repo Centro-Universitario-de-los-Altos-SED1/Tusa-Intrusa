@@ -1,10 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Interfaz gráfica del programa
  */
 package Tombola;
 
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +18,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.Random;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -36,7 +37,9 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+        this.setSize(new Dimension(900, 350));
         this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(getClass().getResource("/icons/ruleta.png")).getImage());
         modelo = new DefaultTableModel();
         modelo.addColumn("Nombre/s");
         modelo.addColumn("Numero de lista");
@@ -44,19 +47,15 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     public void CapturarDatos() {
-        if(PantallaNombre.getText().equals("")||PantallaNumero.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Error. Algun campo esta vacio");
-        }
-        else{
-            if (tope >= 41) {
-                JOptionPane.showMessageDialog(null, "Error. Se ha completado la lista");
-            } else {
-                alumnos[tope] = new Alumno(PantallaNombre.getText(), Integer.parseInt(PantallaNumero.getText()), false);
-                arregloTabla[0] = alumnos[tope].nombre;
-                arregloTabla[1] = String.valueOf(alumnos[tope].listNum);
-                modelo.addRow(arregloTabla);
-                tope++;
-            }
+
+        if (tope >= 43) {
+            JOptionPane.showMessageDialog(null, "Error. Se ha completado la lista");
+        } else {
+            alumnos[tope] = new Alumno(PantallaNombre.getText(), Integer.parseInt(PantallaNumero.getText()), false);
+            arregloTabla[0] = alumnos[tope].nombre;
+            arregloTabla[1] = String.valueOf(alumnos[tope].listNum);
+            modelo.addRow(arregloTabla);
+            tope++;
         }
     }
 
@@ -149,6 +148,25 @@ public class Interfaz extends javax.swing.JFrame {
         BotonGuardar = new javax.swing.JButton();
         BotonLimpiar = new javax.swing.JButton();
         BotonBorrar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        PantallaResultado = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         BorrarFila.setText("Borrar Fila");
         BorrarFila.addActionListener(new java.awt.event.ActionListener() {
@@ -159,18 +177,27 @@ public class Interfaz extends javax.swing.JFrame {
         jPopupMenu2.add(BorrarFila);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 575));
+        setTitle("La Ruleta De La Suerte");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setMaximumSize(new java.awt.Dimension(600, 600));
+        setMinimumSize(new java.awt.Dimension(600, 600));
         setResizable(false);
+        setSize(new java.awt.Dimension(1000, 600));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LA RULETA DE LA SUERTE");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 900, 50));
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel2.setText("NOMBRE:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel3.setText("NUMERO DE LISTA:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
         PantallaNombre.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         PantallaNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +210,7 @@ public class Interfaz extends javax.swing.JFrame {
                 PantallaNombreKeyTyped(evt);
             }
         });
+        getContentPane().add(PantallaNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 310, 50));
 
         PantallaNumero.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         PantallaNumero.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -190,6 +218,7 @@ public class Interfaz extends javax.swing.JFrame {
                 PantallaNumeroKeyTyped(evt);
             }
         });
+        getContentPane().add(PantallaNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 190, 50));
 
         BotonAgregar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         BotonAgregar.setText("AGREGAR");
@@ -198,6 +227,7 @@ public class Interfaz extends javax.swing.JFrame {
                 BotonAgregarActionPerformed(evt);
             }
         });
+        getContentPane().add(BotonAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, 40));
 
         Tabla.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -215,6 +245,8 @@ public class Interfaz extends javax.swing.JFrame {
     Tabla.setComponentPopupMenu(jPopupMenu2);
     jScrollPane1.setViewportView(Tabla);
 
+    getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 235, 310, 260));
+
     BotonCargar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
     BotonCargar.setText("Cargar");
     BotonCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -222,6 +254,7 @@ public class Interfaz extends javax.swing.JFrame {
             BotonCargarActionPerformed(evt);
         }
     });
+    getContentPane().add(BotonCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 150, -1));
 
     BotonGuardar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
     BotonGuardar.setText("Guardar");
@@ -230,6 +263,7 @@ public class Interfaz extends javax.swing.JFrame {
             BotonGuardarActionPerformed(evt);
         }
     });
+    getContentPane().add(BotonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 150, -1));
 
     BotonLimpiar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
     BotonLimpiar.setText("Limpiar Campos");
@@ -238,6 +272,7 @@ public class Interfaz extends javax.swing.JFrame {
             BotonLimpiarActionPerformed(evt);
         }
     });
+    getContentPane().add(BotonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 150, -1));
 
     BotonBorrar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
     BotonBorrar.setText("Borrar Tabla");
@@ -246,65 +281,77 @@ public class Interfaz extends javax.swing.JFrame {
             BotonBorrarActionPerformed(evt);
         }
     });
+    getContentPane().add(BotonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 530, 150, -1));
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(BotonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap())
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(BotonAgregar)
-                            .addComponent(BotonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(BotonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE))))
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(12, 12, 12)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jLabel2)
-            .addGap(1, 1, 1)
-            .addComponent(PantallaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jLabel3)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(PantallaNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(BotonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(BotonCargar)
-                .addComponent(BotonGuardar))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(BotonBorrar)
-                .addComponent(BotonLimpiar))
-            .addContainerGap())
-    );
+    jButton1.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    jButton1.setText("¡PROBAR SUERTE!");
+    jButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton1ActionPerformed(evt);
+        }
+    });
+    getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 160, 40));
+
+    PantallaResultado.setEditable(false);
+    PantallaResultado.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    PantallaResultado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    PantallaResultado.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            PantallaResultadoActionPerformed(evt);
+        }
+    });
+    getContentPane().add(PantallaResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 160, 180, 60));
+
+    jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/blue.jpg"))); // NOI18N
+    getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -20, -1, 80));
+
+    jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Arturo MTZ\\Desktop\\Equipo\\Tusa-Intrusa\\Tombola\\src\\icons\\pillar.png")); // NOI18N
+    getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 360, -1, -1));
+
+    jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Arturo MTZ\\Desktop\\Equipo\\Tusa-Intrusa\\Tombola\\src\\icons\\ruleta.png")); // NOI18N
+    getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+
+    jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 310, -1, -1));
+
+    jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Arturo MTZ\\Desktop\\Equipo\\Tusa-Intrusa\\Tombola\\src\\icons\\blue.jpg")); // NOI18N
+    getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 500, 80));
+
+    jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 10, -1, -1));
+
+    jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, -1, -1));
+
+    jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 310, -1, -1));
+
+    jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cohetes.png"))); // NOI18N
+    getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 300, -1, -1));
+
+    jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Arturo MTZ\\Desktop\\Equipo\\Tusa-Intrusa\\Tombola\\src\\icons\\letrero.png")); // NOI18N
+    getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, -1, -1));
+
+    jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, -1, -1));
+
+    jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 390, -1, -1));
+
+    jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nube 1.png"))); // NOI18N
+    getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, -1, -1));
+
+    jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cohetes.png"))); // NOI18N
+    getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, -1, -1));
+
+    jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/avion.png"))); // NOI18N
+    getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, -1, -1));
+
+    jLabel20.setIcon(new javax.swing.ImageIcon("C:\\Users\\Arturo MTZ\\Desktop\\Equipo\\Tusa-Intrusa\\Tombola\\src\\icons\\blue.jpg")); // NOI18N
+    getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, -10, 450, 80));
+
+    jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/blue 2.jpg"))); // NOI18N
+    getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 50, 2620, 1480));
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -389,6 +436,18 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BorrarFilaActionPerformed
 
+    private void PantallaResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PantallaResultadoActionPerformed
+            
+    }//GEN-LAST:event_PantallaResultadoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -433,10 +492,29 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BotonLimpiar;
     private javax.swing.JTextField PantallaNombre;
     private javax.swing.JTextField PantallaNumero;
+    private javax.swing.JTextField PantallaResultado;
     private javax.swing.JTable Tabla;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
