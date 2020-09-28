@@ -1,7 +1,7 @@
 /*
  * Nombre: Alumno.java
  * Descripción: Clase para instancias objetos con nombre, número de lista y participación
- * Versión: 1.0
+ * Versión: 2.0
  */
 package Tombola;
 
