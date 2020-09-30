@@ -209,15 +209,12 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jLabel3.setText("NUMERO DE LISTA:");
+        jLabel3.setText("NÚMERO DE LISTA:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
         PantallaNombre.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        PantallaNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PantallaNombreActionPerformed(evt);
-            }
-        });
+        PantallaNombre.setToolTipText("Espacio para escribir el nombre de un participante.");
+        PantallaNombre.setNextFocusableComponent(PantallaNumero);
         PantallaNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 PantallaNombreKeyTyped(evt);
@@ -226,6 +223,8 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().add(PantallaNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 310, 50));
 
         PantallaNumero.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        PantallaNumero.setToolTipText("Espacio para escribir el número de lista del participante.");
+        PantallaNumero.setNextFocusableComponent(BotonAgregar);
         PantallaNumero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 PantallaNumeroKeyTyped(evt);
@@ -234,7 +233,10 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().add(PantallaNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 190, 50));
 
         BotonAgregar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        BotonAgregar.setMnemonic('a');
         BotonAgregar.setText("AGREGAR");
+        BotonAgregar.setToolTipText("Agregar participante a la tabla.");
+        BotonAgregar.setNextFocusableComponent(PantallaNombre);
         BotonAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonAgregarActionPerformed(evt);
@@ -255,13 +257,17 @@ public class Interfaz extends javax.swing.JFrame {
             }
         )
     );
+    Tabla.setToolTipText("Lista de participantes.");
     Tabla.setComponentPopupMenu(jPopupMenu2);
     jScrollPane1.setViewportView(Tabla);
 
     getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 235, 310, 260));
 
     BotonCargar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonCargar.setMnemonic('c');
     BotonCargar.setText("Cargar");
+    BotonCargar.setToolTipText("Cargar un archivo de su equipo.");
+    BotonCargar.setNextFocusableComponent(BotonLimpiar);
     BotonCargar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BotonCargarActionPerformed(evt);
@@ -270,7 +276,10 @@ public class Interfaz extends javax.swing.JFrame {
     getContentPane().add(BotonCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 150, -1));
 
     BotonGuardar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonGuardar.setMnemonic('g');
     BotonGuardar.setText("Guardar");
+    BotonGuardar.setToolTipText("Guardar la tabla en un archivo.");
+    BotonGuardar.setNextFocusableComponent(BotonCargar);
     BotonGuardar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BotonGuardarActionPerformed(evt);
@@ -279,7 +288,10 @@ public class Interfaz extends javax.swing.JFrame {
     getContentPane().add(BotonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 150, -1));
 
     BotonLimpiar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonLimpiar.setMnemonic('l');
     BotonLimpiar.setText("Limpiar Campos");
+    BotonLimpiar.setToolTipText("Limpiar campos de texto.");
+    BotonLimpiar.setNextFocusableComponent(BotonBorrar);
     BotonLimpiar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BotonLimpiarActionPerformed(evt);
@@ -288,7 +300,10 @@ public class Interfaz extends javax.swing.JFrame {
     getContentPane().add(BotonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 150, -1));
 
     BotonBorrar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    BotonBorrar.setMnemonic('b');
     BotonBorrar.setText("Borrar Tabla");
+    BotonBorrar.setToolTipText("Borrar toda la tabla.");
+    BotonBorrar.setNextFocusableComponent(Suerte);
     BotonBorrar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BotonBorrarActionPerformed(evt);
@@ -297,7 +312,9 @@ public class Interfaz extends javax.swing.JFrame {
     getContentPane().add(BotonBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 530, 150, -1));
 
     Suerte.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+    Suerte.setMnemonic('p');
     Suerte.setText("¡PROBAR SUERTE!");
+    Suerte.setToolTipText("Girar la tómbola.");
     Suerte.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             SuerteActionPerformed(evt);
@@ -308,6 +325,7 @@ public class Interfaz extends javax.swing.JFrame {
     PantallaResultado.setEditable(false);
     PantallaResultado.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
     PantallaResultado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    PantallaResultado.setToolTipText("Aquí aparecerá el ganador.");
     PantallaResultado.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             PantallaResultadoActionPerformed(evt);
@@ -317,11 +335,6 @@ public class Interfaz extends javax.swing.JFrame {
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void PantallaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PantallaNombreActionPerformed
-
-
-    }//GEN-LAST:event_PantallaNombreActionPerformed
 
     /**
      * Método para agregar datos a la tabla

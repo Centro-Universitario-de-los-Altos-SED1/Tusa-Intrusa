@@ -92,7 +92,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="NUMERO DE LISTA:"/>
+        <Property name="text" type="java.lang.String" value="N&#xda;MERO DE LISTA:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -105,9 +105,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Espacio para escribir el nombre de un participante."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="PantallaNumero"/>
+        </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PantallaNombreActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="PantallaNombreKeyTyped"/>
       </Events>
       <Constraints>
@@ -120,6 +123,10 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Espacio para escribir el n&#xfa;mero de lista del participante."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="BotonAgregar"/>
         </Property>
       </Properties>
       <Events>
@@ -136,7 +143,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="AGREGAR"/>
+        <Property name="toolTipText" type="java.lang.String" value="Agregar participante a la tabla."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="PantallaNombre"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonAgregarActionPerformed"/>
@@ -167,6 +179,7 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {},&#xa;        {},&#xa;        {},&#xa;        {}&#xa;    },&#xa;    new String [] {&#xa;&#xa;    }&#xa;)&#xa;" type="code"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Lista de participantes."/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>
             </Property>
@@ -185,7 +198,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Cargar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Cargar un archivo de su equipo."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="BotonLimpiar"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonCargarActionPerformed"/>
@@ -201,7 +219,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="103"/>
         <Property name="text" type="java.lang.String" value="Guardar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Guardar la tabla en un archivo."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="BotonCargar"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonGuardarActionPerformed"/>
@@ -217,7 +240,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="108"/>
         <Property name="text" type="java.lang.String" value="Limpiar Campos"/>
+        <Property name="toolTipText" type="java.lang.String" value="Limpiar campos de texto."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="BotonBorrar"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonLimpiarActionPerformed"/>
@@ -233,7 +261,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="98"/>
         <Property name="text" type="java.lang.String" value="Borrar Tabla"/>
+        <Property name="toolTipText" type="java.lang.String" value="Borrar toda la tabla."/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="Suerte"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonBorrarActionPerformed"/>
@@ -249,7 +282,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
+        <Property name="mnemonic" type="int" value="112"/>
         <Property name="text" type="java.lang.String" value="&#xa1;PROBAR SUERTE!"/>
+        <Property name="toolTipText" type="java.lang.String" value="Girar la t&#xf3;mbola."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SuerteActionPerformed"/>
@@ -267,6 +302,7 @@
           <Font name="Consolas" size="14" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="toolTipText" type="java.lang.String" value="Aqu&#xed; aparecer&#xe1; el ganador."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PantallaResultadoActionPerformed"/>
