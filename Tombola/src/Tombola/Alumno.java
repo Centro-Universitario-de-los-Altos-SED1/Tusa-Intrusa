@@ -49,6 +49,9 @@ public class Alumno {
     public int getListNum() {
         return listNum;
     }
+    public boolean getControl() {
+        return control;
+    }
 
     /**
      * Para guardar el número de lista
